@@ -1,0 +1,17 @@
+FROM node:10.9.0
+
+WORKDIR /usr/app
+
+COPY package.json /usr/app
+COPY yarn.lock /usr/app
+
+
+COPY . /usr/app
+
+RUN yarn global add yarn
+
+RUN yarn
+
+ENV HOST=0.0.0.0
+
+CMD yarn && yarn run dev

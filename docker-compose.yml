@@ -1,7 +1,23 @@
 version: '3'
 services:
+  api:
+    build:
+      context: .
+      dockerfile: ./docker_configs/Dockerfile.develop
+    container_name: my-app-api
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/usr/app
+      - node-modules:/usr/app/node_modules
+    environment:
+      - 'TZ=Asia/Tokyo'
+    ports:
+      - '4000:4000'
+      - '3000:3000'
   prisma:
     image: prismagraphql/prisma:1.10
+    container_name: my-app-prisma
     restart: always
     ports:
     - "4466:4466"
@@ -22,6 +38,7 @@ services:
             migrations: true
   mysql:
     image: mysql:5.7
+    container_name: my-app-mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: prisma
@@ -29,3 +46,4 @@ services:
       - mysql:/var/lib/mysql
 volumes:
   mysql:
+  node-modules:
