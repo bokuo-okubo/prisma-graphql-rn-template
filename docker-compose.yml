@@ -20,9 +20,9 @@ services:
     container_name: my-app-prisma
     restart: always
     ports:
-    - "4466:4466"
+      - "4466:4466"
     depends_on:
-    - mysql
+      - mysql
     environment:
       PRISMA_CONFIG: |
         port: 4466
