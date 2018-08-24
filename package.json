@@ -4,16 +4,13 @@
   "private": true,
   "scripts": {
     "start": "ts-node src/index.ts",
-    "dev": "npm-run-all --parallel start playground",
-
+    "dev": "nodemon -e ts,graphql --require .env -x ts-node src/index.ts",
     "seed:local": "dotenv -- ts-node ./src/scripts/seed.ts",
     "seed:dev": "dotenv -e .env.dev -- ts-node ./src/scripts/seed.ts",
-
     "delete:dev": "prisma delete -e .env.dev --force",
     "delete:local": "prisma delete --force",
     "deploy:local": "prisma deploy && graphql prepare",
     "deploy:dev": "prisma deploy -e .env.dev && graphql prepare && dotenv -e .env.dev -- now -e PRISMA_STAGE -e PRISMA_ENDPOINT -e PRISMA_CLUSTER -e PRISMA_SECRET -e APP_SECRET",
-
     "playground": "graphql playground"
   },
   "dependencies": {
@@ -28,6 +25,7 @@
     "@types/jest": "^23.3.1",
     "graphql-cli": "2.16.5",
     "jest": "^23.5.0",
+    "nodemon": "^1.18.3",
     "npm-run-all": "4.1.3",
     "prisma": "1.14.2",
     "ts-node": "7.0.1",
