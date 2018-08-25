@@ -36,6 +36,8 @@ services:
             user: root
             password: prisma
             migrations: true
+    links:
+      - api
   mysql:
     image: mysql:5.7
     container_name: my-app-mysql
