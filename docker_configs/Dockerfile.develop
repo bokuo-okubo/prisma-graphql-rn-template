@@ -7,7 +7,7 @@ COPY yarn.lock /usr/app
 
 COPY . /usr/app
 
-RUN yarn
+RUN yarn install
 
 ENV HOST=0.0.0.0
 
