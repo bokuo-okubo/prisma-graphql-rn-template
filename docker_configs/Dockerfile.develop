@@ -5,10 +5,7 @@ WORKDIR /usr/app
 COPY package.json /usr/app
 COPY yarn.lock /usr/app
 
-
 COPY . /usr/app
-
-RUN yarn global add yarn
 
 RUN yarn
 

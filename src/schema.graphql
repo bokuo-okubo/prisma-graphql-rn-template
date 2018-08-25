@@ -1,5 +1,22 @@
 # import Post from "./generated/prisma.graphql"
 
+type Post implements Node {
+  id: ID!
+  isPublished: Boolean!
+  title: String!
+  text: String!
+}
+
+"""
+An object with an ID
+"""
+interface Node {
+  """
+  The id of the object.
+  """
+  id: ID!
+}
+
 type Query {
   feed: [Post!]!
   drafts: [Post!]!

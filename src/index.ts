@@ -1,52 +1,17 @@
-import { GraphQLServer } from 'graphql-yoga'
-import { importSchema } from 'graphql-import'
-import { Prisma } from './generated/prisma'
-import { Context } from './utils'
+// tslint:disable:no-console
 
-const resolvers = {
-  Query: {
-    feed(parent, args, context: Context, info) {
-      return context.db.query.posts({ where: { isPublished: true } }, info)
-    },
-    drafts(parent, args, context: Context, info) {
-      return context.db.query.posts({ where: { isPublished: false } }, info)
-    },
-    post(parent, { id }, context: Context, info) {
-      return context.db.query.post({ where: { id: id } }, info)
-    },
-  },
-  Mutation: {
-    createDraft(parent, { title, text }, context: Context, info) {
-      return context.db.mutation.createPost(
-        { data: { title, text } },
-        info,
-      )
-    },
-    deletePost(parent, { id }, context: Context, info) {
-      return context.db.mutation.deletePost({ where: { id } }, info)
-    },
-    publish(parent, { id }, context: Context, info) {
-      return context.db.mutation.updatePost(
-        {
-          where: { id },
-          data: { isPublished: true },
-        },
-        info,
-      )
-    },
-  },
-}
+import server from './server';
 
-const server = new GraphQLServer({
-  typeDefs: './src/schema.graphql',
-  resolvers,
-  context: req => ({
-    ...req,
-    db: new Prisma({
-      endpoint: 'https://us1.prisma.sh/public-autumnbison-76/my-app/dev', // the endpoint of the Prisma API
-      debug: true, // log all GraphQL queries & mutations sent to the Prisma API
-      // secret: 'mysecret123', // only needed if specified in `database/prisma.yml`
-    }),
-  }),
+const { PRISMA_DEBUG, PRISMA_ENDPOINT, PRISMA_SECRET, PORT } = process.env;
+
+server({
+  PRISMA_ENDPOINT, // the endpoint of the Prisma DB service (value is set in .env)
+  PRISMA_SECRET, // taken from database/prisma.yml (value is set in .env)
+  PRISMA_DEBUG: !!PRISMA_DEBUG, // log all GraphQL queries & mutations
 })
-server.start(() => console.log('Server is running on http://localhost:4000'))
+  .start()
+  .then(_ => console.log(`> ✅  GraphQL API Gateway is running on http://localhost:${PORT}`))
+  .catch(err => {
+    console.error(`Something went wrong:`, err);
+    process.exit(1);
+  });
