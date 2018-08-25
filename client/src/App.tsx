@@ -7,38 +7,17 @@ import {
 } from 'react-native';
 
 import ApolloClient from "apollo-boost";
-import gql from "graphql-tag";
 import { ApolloProvider } from "react-apollo";
 
 import { ChildComponent } from './ChildComponent'
 
 const client = new ApolloClient({
-  // uri: "http://localhost:4000/"
-  uri: 'https://w5xlvm3vzz.lp.gql.zone/graphql'
+  uri: "http://localhost:4000/"
 });
 
 export default class App extends React.Component<{}> {
   render() {
     const onPressButton = () => { alert('🤭🤭🤭') }
-
-    client.query({
-      // query: gql`
-      // query getFeed {
-      //   feed {
-      //     id
-      //     title
-      //     text
-      //   }
-      // }
-      // `
-      query: gql`
-      {
-        rates(currency: "USD") {
-          currency
-        }
-      }
-      `
-    }).then(res => console.log(res))
 
     return (
       <ApolloProvider client={client}>
