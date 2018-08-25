@@ -23,7 +23,8 @@
     "style-loader": "^0.19.0",
     "ts-jest": "^22.4.6",
     "tslib": "^1.9.1",
-    "typescript": "^2.8.3"
+    "typescript": "^2.8.3",
+    "webpack-cli": "^3.1.0"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry-web.js",
   "scripts": {
