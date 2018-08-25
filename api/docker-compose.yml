@@ -10,7 +10,6 @@ services:
     volumes:
       - .:/usr/app
       - node-modules:/usr/app/node_modules
-    command: yarn run dev:api
     environment:
       - 'TZ=Asia/Tokyo'
     ports:
