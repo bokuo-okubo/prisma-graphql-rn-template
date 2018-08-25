@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "ts-node src/index.ts",
-    "dev": "nodemon -e ts,graphql --require './.env' -x ts-node src/index.ts",
+    "dev": "nodemon -e ts,graphql -x ts-node -r dotenv/config src/index.ts",
     "seed:local": "dotenv -- ts-node ./src/scripts/seed.ts",
     "seed:dev": "dotenv -e .env.dev -- ts-node ./src/scripts/seed.ts",
     "delete:dev": "prisma delete -e .env.dev --force",
@@ -25,6 +25,7 @@
     "@types/jest": "^23.3.1",
     "@types/lodash": "^4.14.116",
     "@types/node": "^10.9.1",
+    "dotenv": "^6.0.0",
     "graphql-cli": "2.16.5",
     "jest": "^23.5.0",
     "nodemon": "^1.18.3",
