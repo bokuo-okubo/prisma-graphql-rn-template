@@ -10,7 +10,7 @@ const appDirectory = path.resolve(__dirname, './');
 // errors. To fix this webpack can be configured to compile to the necessary
 // 'node_module'.
 const babelLoaderConfiguration = {
-  test: /\.js$/,
+  test: /\.tsx$/,
   // Add every directory that needs to be compiled by Babel during the build.
   include: [
     path.resolve(appDirectory, 'src'),
@@ -23,22 +23,32 @@ const babelLoaderConfiguration = {
     path.resolve(appDirectory, 'node_modules/@expo/vector-icons'),
     path.resolve(appDirectory, 'node_modules/react-native-platform-touchable'),
   ],
+  exclude: [
+    "/node_modules/"
+  ],
   use: {
-    loader: 'babel-loader',
+    loader: 'ts-loader',
     options: {
       // cacheDirectory: false,
-      babelrc: false,
+      // babelrc: false,
       // Babel configuration (or use .babelrc)
       // This aliases 'react-native' to 'react-native-web' and includes only
       // the modules needed by the app.
-      plugins: [
-        'expo-web',
-        'react-native-web',
-        'transform-decorators-legacy',
-        ['transform-runtime', { helpers: false, polyfill: false, regenerator: true }],
-      ],
+      // plugins: [
+      //   'expo-web',
+      //   'react-native-web',
+      //   'transform-decorators-legacy',
+      //   ['transform-runtime', { helpers: false, polyfill: false, regenerator: true }],
+      // ],
+      compilerOptions: { // overwrite tsconfig.json
+        allowJs: true,
+        target: "ES5",
+        jsx: "react",
+        outDir: "webroot",
+        lib: ["dom", "ES2017"],
+      },
       // The 'react-native' preset is recommended to match React Native's packager
-      presets: ['react-native'],
+      // presets: ['react-native'],
     },
   },
 };
@@ -77,8 +87,8 @@ const ttfLoaderConfiguration = {
 
 module.exports = {
   // your web-specific entry file
-  entry: path.resolve(appDirectory, 'src/index.js'),
-  devtool: 'eval',
+  entry: path.resolve(appDirectory, 'src/index.tsx'),
+  devtool: 'inline-source-map',
 
   // configures where the build ends up
   output: {
@@ -111,7 +121,7 @@ module.exports = {
     // module implementations should be written in files using the extension
     // '.web.js'.
     symlinks: false,
-    extensions: ['.web.js', '.js'],
+    extensions: [ '.web.js', '.js', '.ts', '.web.ts', '.tsx', '.web.tsx' ],
     alias: {
       './assets/images/expo-icon.png': './assets/images/expo-icon@2x.png',
       './assets/images/slack-icon.png': './assets/images/slack-icon@2x.png',
